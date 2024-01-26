@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        td {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+        }
+        table {
+            /* margin: 10vw; */
+        }
+
+        button {
+            width: 100px;
+            height: 100px;
+        }
+        .app {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        img {
+            width: 50px;
+            height: 50px;
+        }
+        .video_feed {
+            width: 640px;
+            height: 480px;
+        }
+
+        td:hover {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Show video feed from /video_feed -->
+    <h1>Cozmo!</h1>
+    <div class="app">
+
+        <table>
+            <tr>
+                <td></td>
+                <td onclick="doCall('forward')"><img src="/icons/arrow-sm-up-svgrepo-com"></td>
+                <td></td>
+                <td onclick="doCall('lookup')"><img src="/icons/arrow-square-up-svgrepo-com"></td>
+                <td onclick="doCall('up')"><img src="/icons/arrow-up-to-bracket-svgrepo-com"></td>
+            </tr>
+            <tr>
+                <td onclick="doCall('left')"><img src="/icons/arrow-sm-left-svgrepo-com"></td>
+                <td></td>
+                <td onclick="doCall('right')"><img src="/icons/arrow-sm-right-svgrepo-com"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td onclick="doCall('backward')"><img src="/icons/arrow-narrow-down-svgrepo-com"></td>
+                <td></td>
+                <td onclick="doCall('lookdown')"><img src="/icons/arrow-square-down-svgrepo-com"></td>
+                <td onclick="doCall('down')"><img src="/icons/arrow-down-to-bracket-svgrepo-com"></td>
+            </tr>
+        </table>
+
+        <img src="/video_feed" class="video_feed" />
+        <!-- <button id="leftButton">Left</button>
+        <button id="rightButton">Right</button>
+        <button id="forwardButton">Forward</button>
+        <button id="backwardButton">Backward</button>
+
+
+        <button id="upButton">Up</button>
+        <button id="downButton">Down</button>
+
+        <button id="LookUpButton">Look up</button>
+        <button id="LookDownButton">Look down</button> -->
+    </div>
+    <script>
+        function doCall(type) {
+            fetch(`/${type}`, { method: 'POST' })
+        }
+    </script>
+
+</html>
