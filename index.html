@@ -23,7 +23,7 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: wrap-reverse;
         }
         img {
             width: 50px;
@@ -36,6 +36,12 @@
 
         td:hover {
             background-color: #ccc;
+        }
+        .ready {
+            background-color: #aaffaa;
+        }
+        .cooldown {
+            background-color: #ffaaaa;
         }
     </style>
 </head>
@@ -56,7 +62,7 @@
             </tr>
             <tr>
                 <td onclick="doCall('left')"><img src="/icons/arrow-sm-left-svgrepo-com"></td>
-                <td></td>
+                <td id="cooldown">Cooldown:</td>
                 <td onclick="doCall('right')"><img src="/icons/arrow-sm-right-svgrepo-com"></td>
             </tr>
             <tr>
@@ -69,22 +75,30 @@
         </table>
 
         <img src="/video_feed" class="video_feed" />
-        <!-- <button id="leftButton">Left</button>
-        <button id="rightButton">Right</button>
-        <button id="forwardButton">Forward</button>
-        <button id="backwardButton">Backward</button>
-
-
-        <button id="upButton">Up</button>
-        <button id="downButton">Down</button>
-
-        <button id="LookUpButton">Look up</button>
-        <button id="LookDownButton">Look down</button> -->
     </div>
     <script>
+        let cooldown = 3;
+        let last_click = 0;
         function doCall(type) {
+            let now = new Date().getTime();
+            if (now - last_click < cooldown * 1000) return;
+            last_click = now;
             fetch(`/${type}`, { method: 'POST' })
         }
+        setInterval(() => {
+            let now = new Date().getTime();
+            let diff = now - last_click;
+            if (diff < cooldown * 1000) {
+                document.getElementById('cooldown').innerText = `Cooldown: ${Math.round((cooldown * 1000 - diff) / 1000)}s`;
+                document.getElementById('cooldown').classList.remove('ready');
+                document.getElementById('cooldown').classList.add('cooldown');
+
+            } else {
+                document.getElementById('cooldown').innerText = `Cooldown: 0s`;
+                document.getElementById('cooldown').classList.add('ready');
+                document.getElementById('cooldown').classList.remove('cooldown');
+            }
+        }, 1000);
     </script>
 
 </html>
